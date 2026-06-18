@@ -104,7 +104,7 @@ a{
 
     box-shadow:
 
-    0 8px 32px rgba(0,0,0,0.08);
+    none;
 
     border-radius:24px;
 
@@ -212,7 +212,7 @@ a{
 
     height:420px;
 
-    margin-bottom:30px;
+    margin-bottom:0;
 
     overflow:hidden;
 
