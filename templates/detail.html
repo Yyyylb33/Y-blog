@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{{ post.title }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="article-page">
+
+    <div class="glass article-card">
+
+        <h1>{{ post.title }}</h1>
+
+        <div class="post-meta">
+
+            <span>作者：{{ post.author.username }}</span>
+
+            <span>
+
+                {{ post.create_time.strftime('%Y-%m-%d') }}
+
+            </span>
+
+            <span>
+
+                👁 {{ post.views }}
+
+            </span>
+
+        </div>
+
+        <hr>
+
+        <div class="markdown-body">
+
+            {{ html_content|safe }}
+
+        </div>
+
+        <div class="like-box">
+
+            <button
+
+                id="likeBtn"
+
+                data-post-id="{{post.id}}"
+
+                onclick="likePost(this.dataset.postId)">
+
+                ❤️ 点赞
+
+            </button>
+
+            <span id="likeCount">
+
+                {{ likes }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="glass comment-card">
+
+        <h2>评论区</h2>
+
+        {% if session.get('user_id') %}
+
+        <form
+
+            method="POST"
+
+            action="{{ url_for('add_comment',
+
+            post_id=post.id) }}">
+
+            <textarea
+
+                name="content"
+
+                rows="4"
+
+                required></textarea>
+
+            <button
+
+                class="btn btn-primary"
+
+                type="submit">
+
+                发表评论
+
+            </button>
+
+        </form>
+
+        {% endif %}
+
+        <hr>
+
+        {% for comment in comments %}
+
+        <div class="comment-item">
+
+            <strong>
+
+                {{ comment.user.username }}
+
+            </strong>
+
+            <p>
+
+                {{ comment.content }}
+
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<script>
+
+function likePost(postId){
+
+fetch("/like/" + postId)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+document.getElementById(
+
+"likeCount"
+
+).innerText=data.count;
+
+});
+
+}
+
+</script>
+
+{% endblock %}

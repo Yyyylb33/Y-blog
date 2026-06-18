@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+首页
+
+{% endblock %}
+
+{% block content %}
+
+<section class="hero glass">
+
+    <div class="hero-content">
+
+        <h1>
+
+            记录生活 · 分享思考
+
+        </h1>
+
+        <p>
+
+            基于 Flask + SQLite 构建的个人博客平台
+
+        </p>
+
+        <a href="#posts" class="btn btn-primary">
+
+            开始阅读 →
+
+        </a>
+
+    </div>
+
+</section>
+
+<div class="main-layout">
+
+    <div class="content-area">
+
+        <div class="section-title">
+
+            最新文章
+
+        </div>
+
+        {% for post in posts %}
+
+        <div class="post-card glass">
+
+            <div class="post-body">
+
+                <h2>
+
+                    <a href="{{ url_for('detail',
+
+                                post_id=post.id) }}">
+
+                        {{ post.title }}
+
+                    </a>
+
+                </h2>
+
+                <p>
+
+                    {{ post.content[:150] }}
+
+                </p>
+
+                <div class="post-meta">
+
+                    <span>
+
+                        👁 {{ post.views }}
+
+                    </span>
+
+                    <span>
+
+                        📅
+
+                        {{ post.create_time.strftime('%Y-%m-%d') }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <aside class="sidebar">
+
+        <div class="glass side-card">
+
+            <h3>搜索</h3>
+
+            <form action="{{ url_for('search') }}">
+
+                <input type="text"
+
+                       name="keyword"
+
+                       placeholder="搜索文章">
+
+                <button type="submit">
+
+                    搜索
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="glass side-card">
+
+            <h3>分类</h3>
+
+            {% for c in categories %}
+
+            <p>
+
+                <a href="{{ url_for('category',
+
+                        id=c.id) }}">
+
+                    {{ c.name }}
+
+                </a>
+
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </aside>
+
+</div>
+
+{% endblock %}
